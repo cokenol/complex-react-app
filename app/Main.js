@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from "react"
 import ReactDOM from "react-dom"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Axios from "axios"
 Axios.defaults.baseURL = "http://localhost:8080"
 
@@ -27,9 +27,9 @@ function Main() {
   function ourReducer(state, action) {
     switch (action.type) {
       case "login":
-        return { loggedIn: true, flashMessages: state.FlashMessages }
+        return { loggedIn: true, flashMessages: state.flashMessages }
       case "logout":
-        return { loggedIn: false, flashMessages: state.FlashMessages }
+        return { loggedIn: false, flashMessages: state.flashMessages }
       case "flashMessage":
         return { loggedIn: state.loggedIn, flashMessages: state.flashMessages.concat(action.value) }
     }
@@ -46,7 +46,7 @@ function Main() {
           <Routes>
             <Route path="/" element={state.loggedIn ? <Home /> : <HomeGuest />} />
             <Route path="/post/:id" element={<ViewSinglePost />} />
-            <Route path="create-post" element={<CreatePost />} />
+            <Route path="/create-post" element={<CreatePost />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/terms" element={<Terms />} />
           </Routes>
