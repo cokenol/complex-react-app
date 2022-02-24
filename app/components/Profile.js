@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import Page from "./Page"
-import { useParams, NavLink, Routes, Route } from "react-router-dom"
+import { useParams, NavLink, Routes, Route, Navigate } from "react-router-dom"
 import Axios from "axios"
 import StateContext from "../StateContext"
 import ProfilePosts from "./ProfilePosts"
@@ -8,6 +8,7 @@ import ProfileFollowers from "./ProfileFollowers"
 import ProfileFollowing from "./ProfileFollowing"
 import ProfileFollow from "./ProfileFollow"
 import { useImmer } from "use-immer"
+import NotFound from "./NotFound"
 
 function Profile() {
   const { username } = useParams()
@@ -31,10 +32,16 @@ function Profile() {
     async function fetchData() {
       try {
         const response = await Axios.post(`/profile/${username}`, { token: appState.user.token }, { cancelToken: ourRequest.token })
-        setState(draft => {
-          draft.profileData = response.data
-        })
-        console.log(response.data)
+        if (response.data) {
+          setState(draft => {
+            draft.profileData = response.data
+          })
+          console.log(response.data)
+        } else {
+          setState(draft => {
+            draft.profileData.profileUsername = ".."
+          })
+        }
       } catch {
         console.log("There was a problem or the request was cancelled.")
       }
@@ -112,6 +119,10 @@ function Profile() {
     setState(draft => {
       draft.stopFollowingRequestCount++
     })
+  }
+
+  if (state.profileData.profileUsername == "..") {
+    return <NotFound />
   }
 
   return (
