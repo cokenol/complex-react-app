@@ -93,7 +93,7 @@ function EditPost() {
         if (response.data) {
           dispatch({ type: "fetchComplete", value: response.data })
           if (appState.user.username != response.data.author.username) {
-            appDispatch({ type: "flashMessage", value: "You do not have permission to edit that post." })
+            appDispatch({ type: "flashMessage", value: "You do not have permission to edit that post.", color: "danger" })
             // redirect to homepage
             navigate("/")
           }

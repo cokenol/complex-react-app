@@ -51,7 +51,7 @@ function Main() {
         draft.loggedIn = false
         return
       case "flashMessage":
-        draft.flashMessages.push(action.value)
+        draft.flashMessages.push([action.value, action.color])
         return
       case "openSearch":
         draft.isSearchOpen = true
